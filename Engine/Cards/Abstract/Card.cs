@@ -1,6 +1,6 @@
-namespace Duelist.Engine.Cards;
-
 using Duelist.Engine.Players;
+
+namespace Duelist.Engine.Cards.Abstract;
 
 public abstract class Card
 {
@@ -9,8 +9,8 @@ public abstract class Card
 
     public Card(string name, int pipCost)
     {
-        Name = name;
-        PipCost = pipCost;
+        this.Name = name;
+        this.PipCost = pipCost;
     }
 
     public abstract void Play(Player player, Player enemy);
