@@ -2,11 +2,11 @@ using Duelist.Engine.Players;
 
 namespace Duelist.Engine.Cards.Abstract;
 
-public abstract class BuffCard : Card
+public abstract class Buff : Card
 {
     public double PercentageIncrease { get; set; }
 
-    public BuffCard(string name, int pipCost, double percentageIncrease) : base(name, pipCost)
+    public Buff(string name, int pipCost, double percentageIncrease) : base(name, pipCost)
     {
         if (percentageIncrease <= 0)
         {

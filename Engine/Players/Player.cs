@@ -1,5 +1,6 @@
 using Duelist.Engine.Cards.Abstract;
-using Duelist.Engine.Cards.Buffs;
+using Duelist.Engine.Cards.Buffs.Blades;
+using Duelist.Engine.Cards.Buffs.Shields;
 
 namespace Duelist.Engine.Players;
 
@@ -14,10 +15,20 @@ public class Player
 
     public List<Card> Deck { get; private set; } = new List<Card>();
 
-    public Player(string name, ProfessionType professionType)
+    public Player(string? name, ProfessionType professionType, List<Card> deck)
     {
-        this.Name = name;
+        if (name != null)
+        {
+            this.Name = name;
+        }
+
         this.Profession = Profession.SetProfession(professionType);
+        this.Deck = deck;
+    }
+
+    public void IncreasePip()
+    {
+        this.Pips += 1;
     }
 }
 

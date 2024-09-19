@@ -1,7 +1,7 @@
 using Duelist.Engine.Players;
 using Duelist.Engine.Cards.Abstract;
 
-namespace Duelist.Engine.Cards.Buffs;
+namespace Duelist.Engine.Cards.Buffs.Blades;
 
 public class Blade : Card
 {
