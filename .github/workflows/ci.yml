@@ -22,4 +22,6 @@ jobs:
           dotnet-version: '8.0'
 
       - name: Build and Test
-        run: chmod +x Scripts/test.sh && ./Scripts/test.sh
+        run: |
+          cd Tests
+          dotnet test
