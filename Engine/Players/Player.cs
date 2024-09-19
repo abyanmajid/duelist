@@ -1,20 +1,23 @@
+using Duelist.Engine.Cards.Abstract;
 using Duelist.Engine.Cards.Buffs;
 
 namespace Duelist.Engine.Players;
 
 public class Player
 {
-    private string name { get; set; } = "Guest";
-    private int health { get; set; }
-    private int maxHealth { get; set; }
-    private Profession profession { get; set; }
-    private int pips { get; set; } = 2;
-    private List<Shield> shields { get; set; } = new List<Shield>();
-    private List<Blade> blades { get; set; } = new List<Blade>();
-    private Aura aura { get; set; }
+    public string Name { get; private set; } = "Guest";
+    public Profession Profession { get; private set; }
+    public int Pips { get; private set; } = 1;
+    public List<Shield> Shields { get; private set; } = new List<Shield>();
+    public List<Blade> Blades { get; private set; } = new List<Blade>();
+    public Aura? aura { get; set; } = null;
 
-    private GlobalEffect globalEffect { get; set; }
+    public List<Card> Deck { get; private set; } = new List<Card>();
 
-    private List<Card> deck;
+    public Player(string name, ProfessionType professionType)
+    {
+        this.Name = name;
+        this.Profession = Profession.SetProfession(professionType);
+    }
 }
 
