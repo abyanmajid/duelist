@@ -1,6 +1,6 @@
 namespace Duelist.Engine.Players;
 
-public enum ProfessionType
+public enum ProfessionEnum
 {
     Warrior,
     Guardian,

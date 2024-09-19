@@ -1,5 +1,3 @@
-namespace Engine.Cards.Attacks.AttackVariants;
-
 public enum WarriorAttackEnum
 {
     RAPID_SLASH,

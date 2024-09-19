@@ -17,17 +17,17 @@ namespace Duelist.Engine.Players
             Pierce = pierce;
         }
 
-        public static Profession SetProfession(ProfessionType professionType)
+        public static Profession SetProfession(ProfessionEnum ProfessionEnum)
         {
-            switch (professionType)
+            switch (ProfessionEnum)
             {
-                case ProfessionType.Warrior:
+                case ProfessionEnum.Warrior:
                     return new Profession("Warrior", 2400, 40, 30, 10);
-                case ProfessionType.Guardian:
+                case ProfessionEnum.Guardian:
                     return new Profession("Guardian", 3200, 20, 60, 5);
-                case ProfessionType.Assassin:
+                case ProfessionEnum.Assassin:
                     return new Profession("Assassin", 1600, 75, 10, 30);
-                case ProfessionType.Necromancer:
+                case ProfessionEnum.Necromancer:
                     return new Profession("Necromancer", 2000, 30, 20, 5);
                 default:
                     throw new ArgumentException("Invalid profession type");
