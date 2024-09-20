@@ -4,17 +4,31 @@ namespace Duelist.Engine.Players;
 
 public class Player
 {
-    const int BASIC_ATTACK_DAMAGE = 80;
+    // Constants
     const string VALID_PLAYER_NAME_REGEX = @"^[a-zA-Z0-9 ]+$";
 
+    // Basic details
     public string Name { get; private set; } = "Guest";
     public Profession Profession { get; private set; }
     public int Health { get; private set; }
     public int Pips { get; private set; } = 1;
+
+    // Individual Buffs
     public List<ShieldEnum> Shields { get; private set; } = new List<ShieldEnum>();
     public List<BladeEnum> Blades { get; private set; } = new List<BladeEnum>();
     public AuraEnum? Aura { get; set; } = null;
 
+    // Individual Debuffs
+    public List<DebuffEnum> Debuffs { get; private set; } = new List<DebuffEnum>();
+    public int StunRounds { get; private set; } = 0;
+
+    // Global Effect
+    public GlobalEffectEnum? GlobalEffect { get; set; } = null;
+
+    // Special Effect
+    public SpecialEffectEnum? SpecialEffect { get; set; } = null;
+
+    // Deck
     private List<object> SavedDeck = new List<object>();
     public List<object> Deck { get; private set; } = new List<object>();
 
@@ -79,9 +93,9 @@ public class Player
         enemy.TakeDamage((int)Math.Round(finalDamage));
     }
 
-    public void AddShield()
+    public void AddShield(ShieldEnum shield)
     {
-
+        this.Shields.Add(shield);
     }
 
     public void Heal(int healthAddition)
@@ -94,18 +108,45 @@ public class Player
         this.Blades.Add(blade);
     }
 
-    public void SetAura()
+    public void Stun(Player enemy, int stunRounds)
     {
+        if (enemy.Shields.Contains(ShieldEnum.STUN_SHIELD))
+        {
+            enemy.Shields.Remove(ShieldEnum.STUN_SHIELD);
+            return;
+        }
+
+        enemy.StunRounds = stunRounds;
     }
 
-    public void SetGlobalEffect()
+    public void SendDebuff(Player enemy, DebuffEnum debuff)
     {
+        enemy.Debuffs.Add(debuff);
+    }
 
+    public void SetAura(AuraEnum aura)
+    {
+        this.Aura = aura;
+    }
+
+    public void SetGlobalEffect(GlobalEffectEnum globalEffect)
+    {
+        this.GlobalEffect = globalEffect;
+    }
+
+    public void SetSpecialEffect(SpecialEffectEnum specialEffect)
+    {
+        this.SpecialEffect = specialEffect;
     }
 
     public void TakeDamage(int incomingDamage)
     {
         this.Health = Math.Max(0, this.Health - incomingDamage);
+    }
+
+    public bool IsStunned()
+    {
+        return this.StunRounds > 0;
     }
 }
 

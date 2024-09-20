@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using Duelist.Engine.Players;
 
 namespace Tests;
 
+[ExcludeFromCodeCoverage]
 public class PlayerTests
 {
     private static ProfanityFilter.ProfanityFilter _profanityFilter = new ProfanityFilter.ProfanityFilter();
@@ -13,10 +15,10 @@ public class PlayerTests
 
     public PlayerTests()
     {
-        this.warrior = new Player(null, ProfessionEnum.Warrior, new List<object>());
-        this.guardian = new Player("Abyan", ProfessionEnum.Guardian, new List<object>());
-        this.assassin = new Player("Linus", ProfessionEnum.Assassin, new List<object>());
-        this.necromancer = new Player("", ProfessionEnum.Necromancer, new List<object>());
+        this.warrior = new Player(null, ProfessionEnum.WARRIOR, new List<object>());
+        this.guardian = new Player("Abyan", ProfessionEnum.GUARDIAN, new List<object>());
+        this.assassin = new Player("Linus", ProfessionEnum.ASSASSIN, new List<object>());
+        this.necromancer = new Player("", ProfessionEnum.NECROMANCER, new List<object>());
     }
 
     [Fact]
@@ -26,15 +28,14 @@ public class PlayerTests
         Assert.Equal("Abyan", guardian.Name);
         Assert.Equal("Linus", assassin.Name);
         Assert.Equal("Guest", necromancer.Name);
-
     }
 
     [Fact]
     public void PlayerInvalidNamesTest()
     {
-        Assert.Throws<ArgumentException>(() => new Player("你好你好你好你好", ProfessionEnum.Warrior, new List<object>()));
-        Assert.Throws<ArgumentException>(() => new Player("A-b_y@a#n!$", ProfessionEnum.Warrior, new List<object>()));
-        Assert.Throws<ArgumentException>(() => new Player("Fuck", ProfessionEnum.Warrior, new List<object>()));
+        Assert.Throws<ArgumentException>(() => new Player("你好你好你好你好", ProfessionEnum.WARRIOR, new List<object>()));
+        Assert.Throws<ArgumentException>(() => new Player("A-b_y@a#n!$", ProfessionEnum.WARRIOR, new List<object>()));
+        Assert.Throws<ArgumentException>(() => new Player("Fuck", ProfessionEnum.WARRIOR, new List<object>()));
     }
 
     [Fact]
@@ -73,10 +74,10 @@ public class PlayerTests
 
         for (int i = 0; i < 6; i++)
         {
-            deckExceedingLimit.Add(AssassinAttackEnum.NIGHT_SLASH);
+            deckExceedingLimit.Add(AssassinAttackEnum.FATEFUL_PUNISHMENT);
             deckExceedingLimit.Add(AssassinAttackEnum.SHADOW_STRIKE);
-            deckExceedingLimit.Add(AssassinAttackEnum.SILENT_BLADE);
-            deckExceedingLimit.Add(AssassinAttackEnum.SHADOW_JUDGMENT);
+            deckExceedingLimit.Add(AssassinAttackEnum.NIGHT_SLASH);
+            deckExceedingLimit.Add(AssassinAttackEnum.ASSASSINATION);
             deckExceedingLimit.Add(AssassinAttackEnum.SHADOW_JUDGMENT);
         }
 
@@ -89,7 +90,7 @@ public class PlayerTests
             deckExceedingLimit.Add(WarriorAttackEnum.TITAN_SLAM);
         }
 
-        Assert.Throws<ArgumentException>(() => new Player("Abyan", ProfessionEnum.Assassin, deckExceedingLimit));
+        Assert.Throws<ArgumentException>(() => new Player("Abyan", ProfessionEnum.ASSASSIN, deckExceedingLimit));
     }
 
     [Fact]
