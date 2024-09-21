@@ -1,23 +1,61 @@
 using Duelist.Engine.Cards;
+using Duelist.Engine.Players;
 
 public class CardMatcher
 {
-    public static Card? MatchAttack(object attackType)
+    private ProfessionEnum playerProfession;
+
+    public CardMatcher(ProfessionEnum playerProfession)
     {
-        switch (attackType)
+        this.playerProfession = playerProfession;
+    }
+
+    public Card? MatchAttack(object attackType)
+    {
+        if (playerProfession == ProfessionEnum.WARRIOR)
         {
-            case AssassinAttackEnum.FATEFUL_PUNISHMENT:
-                return new FatefulPunishmentCard();
-            case AssassinAttackEnum.SHADOW_STRIKE:
-                return new ShadowStrikeCard();
-            case AssassinAttackEnum.NIGHT_SLASH:
-                return new NightSlashCard();
-            case AssassinAttackEnum.ASSASSINATION:
-                return new AssassinationCard();
-            case AssassinAttackEnum.SHADOW_JUDGMENT:
-                return new ShadowJudgmentCard();
-            default:
-                return null;
+
         }
+
+        if (playerProfession == ProfessionEnum.GUARDIAN)
+        {
+            switch (attackType)
+            {
+                case GuardianAttackEnum.SHIELD_BASH:
+                    return new ShieldBashCard();
+                case GuardianAttackEnum.DEFENDER_STRIKE:
+                    return new DefenderStrikeCard();
+                case GuardianAttackEnum.FORTRESS_SLAM:
+                    return new FortressSlamCard();
+                case GuardianAttackEnum.IRON_WALL:
+                    return new IronWallCard();
+                case GuardianAttackEnum.EARTH_SHATTER:
+                    return new EarthShatterCard();
+            }
+        }
+
+        if (playerProfession == ProfessionEnum.ASSASSIN)
+        {
+            switch (attackType)
+            {
+                case AssassinAttackEnum.FATEFUL_PUNISHMENT:
+                    return new FatefulPunishmentCard();
+                case AssassinAttackEnum.SHADOW_STRIKE:
+                    return new ShadowStrikeCard();
+                case AssassinAttackEnum.NIGHT_SLASH:
+                    return new NightSlashCard();
+                case AssassinAttackEnum.ASSASSINATION:
+                    return new AssassinationCard();
+                case AssassinAttackEnum.SHADOW_JUDGMENT:
+                    return new ShadowJudgmentCard();
+            }
+        }
+
+        if (playerProfession == ProfessionEnum.NECROMANCER)
+        {
+
+        }
+
+        return null;
     }
 }
