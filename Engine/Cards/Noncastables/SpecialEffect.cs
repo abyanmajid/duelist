@@ -15,7 +15,7 @@ public class SpecialEffect
         switch (SpecialEffectType)
         {
             case SpecialEffectEnum.RAMPAGE:
-                player.IncreasePip();
+                player.AddPip();
 
                 foreach (ShieldEnum shield in enemy.Shields)
                 {
@@ -31,7 +31,7 @@ public class SpecialEffect
                 break;
 
             case SpecialEffectEnum.INVISIBLE:
-                player.Heal(200);
+                player.AddHealth(300);
 
                 break;
 

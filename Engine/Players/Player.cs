@@ -1,9 +1,13 @@
 using System.Text.RegularExpressions;
+using Duelist.Engine.Cards;
 
 namespace Duelist.Engine.Players;
 
 public class Player
 {
+    // Utilities
+    private readonly CardMatcher cardMatcher;
+
     // Constants
     const string VALID_PLAYER_NAME_REGEX = @"^[a-zA-Z0-9 ]+$";
 
@@ -32,15 +36,19 @@ public class Player
     private List<object> SavedDeck = new List<object>();
     public List<object> Deck { get; private set; } = new List<object>();
 
-    public Player(string? name, ProfessionEnum ProfessionEnum, List<object> deck)
+    // Constructor
+    public Player(string? name, ProfessionEnum professionType, List<object> deck)
     {
-        this.Profession = Profession.SetProfession(ProfessionEnum);
+        this.cardMatcher = new CardMatcher(professionType);
+
+        this.Profession = Profession.SetProfession(professionType);
         this.Health = this.Profession.MaxHealth;
 
         checkNameValidityAndSet(name);
         checkDeckValidityAndSet(deck);
     }
 
+    // ================= SANITATION =================
     private void checkNameValidityAndSet(string? name)
     {
         if (name == null || name == "")
@@ -74,14 +82,77 @@ public class Player
         this.Deck = this.SavedDeck;
     }
 
-    public void IncreasePip()
+    // ================= SEND STAT CHANGE TO SELF =================
+    public void AddPip()
     {
-        this.Pips += 1;
+        if (this.Pips < 8)
+        {
+            this.Pips += 1;
+        }
+    }
+
+    public void RemovePip(int numPipsToDecrease)
+    {
+        if (numPipsToDecrease < 0)
+        {
+            throw new ArgumentException("Number of pips to decrease cannot be negative");
+        }
+
+        this.Pips = Math.Max(this.Pips - numPipsToDecrease, 0);
     }
 
     public void ResetDeck()
     {
         this.Deck = this.SavedDeck;
+    }
+
+    public bool IsStunned()
+    {
+        return this.StunRounds > 0;
+    }
+
+    public void AddHealth(int healthAddition)
+    {
+        this.Health = Math.Min(this.Profession.MaxHealth, this.Health + healthAddition);
+    }
+
+    public void AddShield(ShieldEnum shield)
+    {
+        this.Shields.Add(shield);
+    }
+
+    public void AddBlade(BladeEnum blade)
+    {
+        this.Blades.Add(blade);
+    }
+
+    public void SetAura(AuraEnum aura)
+    {
+        this.Aura = aura;
+    }
+
+    public void TakeDamage(int incomingDamage)
+    {
+        this.Health = Math.Max(0, this.Health - incomingDamage);
+    }
+
+    public void PopDebuff()
+    {
+        if (this.Debuffs.Count > 0)
+        {
+            this.Debuffs.RemoveAt(this.Debuffs.Count - 1);
+        }
+    }
+
+    // ================= SEND STAT CHANGE TO ENEMY =================
+    public void SendAttack(Player enemy, object attackType)
+    {
+        Card? attackCard = cardMatcher.GetMatchingAttackCard(attackType);
+
+        if (attackCard != null)
+        {
+            attackCard.Cast(this, enemy);
+        }
     }
 
     public void InflictDamage(Player enemy, int attackDamage)
@@ -93,22 +164,7 @@ public class Player
         enemy.TakeDamage((int)Math.Round(finalDamage));
     }
 
-    public void AddShield(ShieldEnum shield)
-    {
-        this.Shields.Add(shield);
-    }
-
-    public void Heal(int healthAddition)
-    {
-        this.Health = Math.Min(this.Profession.MaxHealth, this.Health + healthAddition);
-    }
-
-    public void AddBlade(BladeEnum blade)
-    {
-        this.Blades.Add(blade);
-    }
-
-    public void Stun(Player enemy, int stunRounds)
+    public void SendStun(Player enemy, int stunRounds)
     {
         if (enemy.Shields.Contains(ShieldEnum.STUN_SHIELD))
         {
@@ -124,11 +180,6 @@ public class Player
         enemy.Debuffs.Add(debuff);
     }
 
-    public void SetAura(AuraEnum aura)
-    {
-        this.Aura = aura;
-    }
-
     public void SetGlobalEffect(GlobalEffectEnum globalEffect)
     {
         this.GlobalEffect = globalEffect;
@@ -138,15 +189,4 @@ public class Player
     {
         this.SpecialEffect = specialEffect;
     }
-
-    public void TakeDamage(int incomingDamage)
-    {
-        this.Health = Math.Max(0, this.Health - incomingDamage);
-    }
-
-    public bool IsStunned()
-    {
-        return this.StunRounds > 0;
-    }
 }
-
