@@ -4,9 +4,9 @@ namespace Duelist.Engine.Players
     {
         public string Name { get; private set; }
         public int MaxHealth { get; private set; }
-        public double Power { get; set; }        // Percentage for attack increase
-        public double Resistance { get; set; }   // Percentage for decreasing enemy attacks
-        public double Pierce { get; set; }       // Percentage for decreasing enemy's resistance
+        public double Power { get; set; }
+        public double Resistance { get; set; }
+        public double Pierce { get; set; }
 
         public Profession(string name, int maxHealth, double power, double resistance, double pierce)
         {
