@@ -14,6 +14,19 @@ public class CardMatcher
     {
         if (playerProfession == ProfessionEnum.WARRIOR)
         {
+            switch (attackType)
+            {
+                case WarriorAttackEnum.RAPID_SLASH:
+                    return new RapidSlashCard();
+                case WarriorAttackEnum.POWER_STRIKE:
+                    return new PowerStrikeCard();
+                case WarriorAttackEnum.BLADE_STORM:
+                    return new BladeStormCard();
+                case WarriorAttackEnum.RAGING_FURY:
+                    return new RagingFuryCard();
+                case WarriorAttackEnum.TITAN_SLAM:
+                    return new TitanSlamCard();
+            }
         }
 
         if (playerProfession == ProfessionEnum.GUARDIAN)

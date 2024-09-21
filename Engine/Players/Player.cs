@@ -136,6 +136,14 @@ public class Player
         this.Health = Math.Max(0, this.Health - incomingDamage);
     }
 
+    public void PopDebuff()
+    {
+        if (this.Debuffs.Count > 0)
+        {
+            this.Debuffs.RemoveAt(this.Debuffs.Count - 1);
+        }
+    }
+
     // ================= SEND STAT CHANGE TO ENEMY =================
     public void SendAttack(Player enemy, object attackType)
     {
