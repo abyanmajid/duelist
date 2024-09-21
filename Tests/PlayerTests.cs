@@ -94,15 +94,15 @@ public class PlayerTests
     }
 
     [Fact]
-    public void PlayerIncreasePipTest()
+    public void PlayerAddPipTest()
     {
         Assert.Equal(1, warrior.Pips);
-        warrior.IncreasePip();
+        warrior.AddPip();
         Assert.Equal(2, warrior.Pips);
-        warrior.IncreasePip();
+        warrior.AddPip();
         Assert.Equal(3, warrior.Pips);
-        warrior.IncreasePip();
-        warrior.IncreasePip();
+        warrior.AddPip();
+        warrior.AddPip();
         Assert.Equal(5, warrior.Pips);
     }
 }

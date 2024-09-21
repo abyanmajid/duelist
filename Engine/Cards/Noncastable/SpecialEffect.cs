@@ -15,7 +15,7 @@ public class SpecialEffect
         switch (SpecialEffectType)
         {
             case SpecialEffectEnum.RAMPAGE:
-                player.IncreasePip();
+                player.AddPip();
 
                 foreach (ShieldEnum shield in enemy.Shields)
                 {

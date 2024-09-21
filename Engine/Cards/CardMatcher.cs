@@ -2,7 +2,7 @@ using Duelist.Engine.Cards;
 
 public class CardMatcher
 {
-    public static object? MatchAttack(object attackType)
+    public static Card? MatchAttack(object attackType)
     {
         switch (attackType)
         {

@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using Duelist.Engine.Cards;
 
 namespace Duelist.Engine.Players;
 
@@ -32,6 +33,7 @@ public class Player
     private List<object> SavedDeck = new List<object>();
     public List<object> Deck { get; private set; } = new List<object>();
 
+    // Constructor
     public Player(string? name, ProfessionEnum ProfessionEnum, List<object> deck)
     {
         this.Profession = Profession.SetProfession(ProfessionEnum);
@@ -41,6 +43,7 @@ public class Player
         checkDeckValidityAndSet(deck);
     }
 
+    // ================= SANITATION =================
     private void checkNameValidityAndSet(string? name)
     {
         if (name == null || name == "")
@@ -74,9 +77,23 @@ public class Player
         this.Deck = this.SavedDeck;
     }
 
-    public void IncreasePip()
+    // ================= SEND STAT CHANGE TO SELF =================
+    public void AddPip()
     {
-        this.Pips += 1;
+        if (this.Pips < 8)
+        {
+            this.Pips += 1;
+        }
+    }
+
+    public void RemovePip(int numPipsToDecrease)
+    {
+        if (numPipsToDecrease < 0)
+        {
+            throw new ArgumentException("Number of pips to decrease cannot be negative");
+        }
+
+        this.Pips = Math.Max(this.Pips - numPipsToDecrease, 0);
     }
 
     public void ResetDeck()
@@ -89,7 +106,6 @@ public class Player
         return this.StunRounds > 0;
     }
 
-    // ================= SEND STAT CHANGE TO SELF =================
     public void AddHealth(int healthAddition)
     {
         this.Health = Math.Min(this.Profession.MaxHealth, this.Health + healthAddition);
@@ -116,6 +132,16 @@ public class Player
     }
 
     // ================= SEND STAT CHANGE TO ENEMY =================
+    public void SendAttack(Player enemy, object attackType)
+    {
+        Card? attackCard = CardMatcher.MatchAttack(attackType);
+
+        if (attackCard != null)
+        {
+            attackCard.Cast(this, enemy);
+        }
+    }
+
     public void SendDamage(Player enemy, int attackDamage)
     {
         double damageWithPower = attackDamage * (1 + Profession.Power / 100.0);
@@ -151,4 +177,3 @@ public class Player
         this.SpecialEffect = specialEffect;
     }
 }
-
