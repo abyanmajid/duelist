@@ -11,7 +11,7 @@ public class ShadowStrikeCard : Card
 
     public override void Cast(Player player, Player enemy)
     {
-        player.InflictDamage(enemy, OUTGOING_DAMAGE);
+        player.SendDamage(enemy, OUTGOING_DAMAGE);
         player.AddBlade(BladeEnum.REGULAR_BLADE);
     }
 }

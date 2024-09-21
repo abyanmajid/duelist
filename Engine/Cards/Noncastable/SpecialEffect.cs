@@ -31,7 +31,7 @@ public class SpecialEffect
                 break;
 
             case SpecialEffectEnum.INVISIBLE:
-                player.Heal(200);
+                player.AddHealth(200);
 
                 break;
 

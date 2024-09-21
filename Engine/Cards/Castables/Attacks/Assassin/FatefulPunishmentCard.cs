@@ -16,11 +16,11 @@ public class FatefulPunishmentCard : Card
 
         if (shouldAttackEnemy)
         {
-            player.InflictDamage(enemy, OUTGOING_DAMAGE);
+            player.SendDamage(enemy, OUTGOING_DAMAGE);
         }
         else
         {
-            player.InflictDamage(player, INCOMING_DAMAGE);
+            player.SendDamage(player, INCOMING_DAMAGE);
         }
     }
 }

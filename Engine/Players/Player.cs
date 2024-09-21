@@ -84,7 +84,39 @@ public class Player
         this.Deck = this.SavedDeck;
     }
 
-    public void InflictDamage(Player enemy, int attackDamage)
+    public bool IsStunned()
+    {
+        return this.StunRounds > 0;
+    }
+
+    // ================= SEND STAT CHANGE TO SELF =================
+    public void AddHealth(int healthAddition)
+    {
+        this.Health = Math.Min(this.Profession.MaxHealth, this.Health + healthAddition);
+    }
+
+    public void AddShield(ShieldEnum shield)
+    {
+        this.Shields.Add(shield);
+    }
+
+    public void AddBlade(BladeEnum blade)
+    {
+        this.Blades.Add(blade);
+    }
+
+    public void SetAura(AuraEnum aura)
+    {
+        this.Aura = aura;
+    }
+
+    public void TakeDamage(int incomingDamage)
+    {
+        this.Health = Math.Max(0, this.Health - incomingDamage);
+    }
+
+    // ================= SEND STAT CHANGE TO ENEMY =================
+    public void SendDamage(Player enemy, int attackDamage)
     {
         double damageWithPower = attackDamage * (1 + Profession.Power / 100.0);
         double effectiveResistance = Math.Max(0, enemy.Profession.Resistance - this.Profession.Pierce);
@@ -93,22 +125,7 @@ public class Player
         enemy.TakeDamage((int)Math.Round(finalDamage));
     }
 
-    public void AddShield(ShieldEnum shield)
-    {
-        this.Shields.Add(shield);
-    }
-
-    public void Heal(int healthAddition)
-    {
-        this.Health = Math.Min(this.Profession.MaxHealth, this.Health + healthAddition);
-    }
-
-    public void AddBlade(BladeEnum blade)
-    {
-        this.Blades.Add(blade);
-    }
-
-    public void Stun(Player enemy, int stunRounds)
+    public void SendStun(Player enemy, int stunRounds)
     {
         if (enemy.Shields.Contains(ShieldEnum.STUN_SHIELD))
         {
@@ -124,11 +141,6 @@ public class Player
         enemy.Debuffs.Add(debuff);
     }
 
-    public void SetAura(AuraEnum aura)
-    {
-        this.Aura = aura;
-    }
-
     public void SetGlobalEffect(GlobalEffectEnum globalEffect)
     {
         this.GlobalEffect = globalEffect;
@@ -137,16 +149,6 @@ public class Player
     public void SetSpecialEffect(SpecialEffectEnum specialEffect)
     {
         this.SpecialEffect = specialEffect;
-    }
-
-    public void TakeDamage(int incomingDamage)
-    {
-        this.Health = Math.Max(0, this.Health - incomingDamage);
-    }
-
-    public bool IsStunned()
-    {
-        return this.StunRounds > 0;
     }
 }
 
