@@ -11,6 +11,7 @@ public class ShadowJudgmentCard : Card
 
     public override void Cast(Player player, Player enemy)
     {
-        player.SendDamage(enemy, OUTGOING_DAMAGE);
+        player.InflictDamage(enemy, OUTGOING_DAMAGE);
+        player.SetSpecialEffect(SpecialEffectEnum.INVISIBLE);
     }
 }

@@ -5,6 +5,9 @@ namespace Duelist.Engine.Players;
 
 public class Player
 {
+    // Utilities
+    private readonly CardMatcher cardMatcher;
+
     // Constants
     const string VALID_PLAYER_NAME_REGEX = @"^[a-zA-Z0-9 ]+$";
 
@@ -34,9 +37,11 @@ public class Player
     public List<object> Deck { get; private set; } = new List<object>();
 
     // Constructor
-    public Player(string? name, ProfessionEnum ProfessionEnum, List<object> deck)
+    public Player(string? name, ProfessionEnum professionType, List<object> deck)
     {
-        this.Profession = Profession.SetProfession(ProfessionEnum);
+        this.cardMatcher = new CardMatcher(professionType);
+
+        this.Profession = Profession.SetProfession(professionType);
         this.Health = this.Profession.MaxHealth;
 
         checkNameValidityAndSet(name);
@@ -134,7 +139,7 @@ public class Player
     // ================= SEND STAT CHANGE TO ENEMY =================
     public void SendAttack(Player enemy, object attackType)
     {
-        Card? attackCard = CardMatcher.MatchAttack(attackType);
+        Card? attackCard = cardMatcher.GetMatchingAttackCard(attackType);
 
         if (attackCard != null)
         {
@@ -142,7 +147,7 @@ public class Player
         }
     }
 
-    public void SendDamage(Player enemy, int attackDamage)
+    public void InflictDamage(Player enemy, int attackDamage)
     {
         double damageWithPower = attackDamage * (1 + Profession.Power / 100.0);
         double effectiveResistance = Math.Max(0, enemy.Profession.Resistance - this.Profession.Pierce);

@@ -11,7 +11,7 @@ public class AssassinationCard : Card
 
     public override void Cast(Player player, Player enemy)
     {
-        player.SendDamage(enemy, OUTGOING_DAMAGE);
+        player.InflictDamage(enemy, OUTGOING_DAMAGE);
         player.SendStun(enemy, 1);
         player.AddBlade(BladeEnum.PIERCE_BLADE);
         player.AddBlade(BladeEnum.MINI_BLADE);

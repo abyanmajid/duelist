@@ -10,11 +10,10 @@ public class CardMatcher
         this.playerProfession = playerProfession;
     }
 
-    public Card? MatchAttack(object attackType)
+    public Card? GetMatchingAttackCard(object attackType)
     {
         if (playerProfession == ProfessionEnum.WARRIOR)
         {
-
         }
 
         if (playerProfession == ProfessionEnum.GUARDIAN)
@@ -53,7 +52,24 @@ public class CardMatcher
 
         if (playerProfession == ProfessionEnum.NECROMANCER)
         {
+            switch (attackType)
+            {
+                case NecromancerAttackEnum.SOUL_STRIKE:
+                    return new SoulStrikeCard();
+                case NecromancerAttackEnum.BONE_SPIKE:
+                    return new BoneSpikeCard();
+                case NecromancerAttackEnum.SHADOW_GRASP:
+                    return new ShadowGraspCard();
+                case NecromancerAttackEnum.DEATHLY_DRAIN:
+                    return new DeathlyDrainCard();
+                case NecromancerAttackEnum.MARK_OF_DEATH:
+                    return new MarkOfDeathCard();
+            }
+        }
 
+        if (attackType is BasicAttackEnum basicAttack)
+        {
+            return new BasicAttackCard(basicAttack);
         }
 
         return null;
